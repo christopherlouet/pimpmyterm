@@ -1,0 +1,18 @@
+[/]
+allow-bold=true
+audible-bell=false
+background-color='rgb(22,22,22)'
+bold-color='#CDCDD6D6F4F4'
+bold-color-same-as-fg=true
+cursor-background-color='#CDCDD6D6F4F4'
+cursor-colors-set=true
+cursor-foreground-color='#1E1E1E1E2E2E'
+font='MesloLGS Nerd Font 12'
+foreground-color='rgb(208,207,204)'
+highlight-colors-set=false
+palette=['#454547475A5A', '#F3F38B8BA8A8', '#A6A6E3E3A1A1', '#F9F9E2E2AFAF', '#8989B4B4FAFA', '#F5F5C2C2E7E7', '#9494E2E2D5D5', '#BABAC2C2DEDE', '#58585B5B7070', '#F3F38B8BA8A8', '#A6A6E3E3A1A1', '#F9F9E2E2AFAF', '#8989B4B4FAFA', '#F5F5C2C2E7E7', '#9494E2E2D5D5', '#A6A6ADADC8C8']
+use-system-font=false
+use-theme-background=false
+use-theme-colors=false
+use-theme-transparency=false
+visible-name='Catppuccin Mocha'
