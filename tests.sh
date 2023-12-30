@@ -41,7 +41,7 @@ function main() {
             ;;
         *)
             die "Invalid option: $opt"
-            info "Usage launch_tests.sh [--force]"
+            info "Usage tests.sh [--force]"
             exit 1
             ;;
         esac
