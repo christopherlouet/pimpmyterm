@@ -53,13 +53,13 @@ function detect_os() {
 
 # Check the prerequisites
 function check_prerequisites() {
-    local packages="gawk perl sed curl git gpg wget build-essential"
+    local packages="gawk perl sed curl git gpg wget gcc-x86-64-linux-gnu"
     local install_packages=""
     local install_continue=0
 
     for package in $packages ; do
         check_package=$package
-        [[ "$package" = "build-essential" ]] && check_package="gcc"
+        [[ "$package" =~ ^gcc-.* ]] && check_package="gcc"
         ! [[ -x "$(command -v $check_package)" ]] && install_packages+="$package "
     done
     [[ -n "$install_packages" ]] && install_packages="${install_packages::-1}"
@@ -150,14 +150,11 @@ function setup_zsh_extras() {
 	! [[ -d "$HOME/.local/bin" ]] && mkdir -p "$HOME/.local/bin"
 	! [[ -f "$HOME/.local/bin/fd" ]] && ln -s "$(which fdfind)" "$HOME/.local/bin/fd"
 
-	info "Install bat"
+	info "Install batcat"
 	if [[ -x "$(command -v batcat)" ]]; then
-        info "bat is already installed"
+        info "batcat is already installed"
     else
-        wget https://github.com/sharkdp/bat/releases/download/v0.24.0/bat_0.24.0_amd64.deb \
-            -q --show-progress > /dev/null
-        sudo dpkg -i bat_0.24.0_amd64.deb && rm -f bat_0.24.0_amd64.deb
-        ! [[ -f "/usr/local/bin/batcat" ]] && sudo ln -s /usr/bin/bat /usr/local/bin/batcat
+        $CURRENT_FOLDER/scripts/batcat.sh --clean
     fi
 
 	info "Install bat-extras"
@@ -173,7 +170,6 @@ function setup_zsh_extras() {
         info "eza is already installed"
     else
         sudo mkdir -p /etc/apt/keyrings
-
         wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
         echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
         sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list

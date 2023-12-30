@@ -1,5 +1,9 @@
 # Pimp My Term
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/christopherlouet/bash-libs/blob/main/LICENSE)
+
+<p align="center">
+  <a href="https://github.com/christopherlouet/pimpmyterm/actions?query=workflow%3Atests"><img src="https://github.com/christopherlouet/pimpmyterm/workflows/tests/badge.svg" alt="Build Status"></a>
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="license">
+</p>
 
 A utility script to easily customize the terminal with killer features 😛.
 
@@ -95,7 +99,7 @@ Usage installer.sh [--all] [--zsh|--neovim|--tmux] [--fonts] [--gnome-terminal] 
 To launch the tests, use the command:
 
 ```bash
-./launch_tests.sh
+./tests.sh
 ```
 
 ## 📃 License
