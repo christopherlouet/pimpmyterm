@@ -19,47 +19,71 @@ A utility script to easily customize the terminal with killer features 😛.
 **Requirements**
 
 - Ubuntu 22.04
+- wsl2 with Ubuntu 22.04
 
-**Clone Pimp My Term repository**
-
-```bash
-git clone https://github.com/christopherlouet/pimpmyterm.git
-```
-
-## 💡 Usage
+### 💡 Usage
 
 ```bash
 Usage installer.sh [--all] [--zsh|--neovim|--tmux] [--fonts] [--gnome-terminal] [--auto]
 ```
 
-1️⃣ **Install zsh, oh-my-zsh, plugins and themes**
+### Installation on Ubuntu 22.04
+
+1️⃣ **Log in with your username, and clone the project and install all features:**
 
 ```bash
-./installer.sh --zsh
+git clone https://github.com/christopherlouet/pimpmyterm
+./pimpmyterm/installer.sh --all --auto
 ```
 
-2️⃣ **Install neovim, plugins and theme**
+2️⃣ **Install gnome terminal theme**
 
 ```bash
-./installer.sh --neovim
+./pimpmyterm/installer.sh --gnome-terminal
 ```
 
-3️⃣ **Install tmux plugins and theme**
+3️⃣ **Install Meslo Nerd Fonts**
 
 ```bash
-./installer.sh --tmux
+./pimpmyterm/installer.sh --fonts
 ```
 
-4️⃣ Install gnome terminal theme
+### Installation with wsl2
+
+1️⃣ **Install Ubuntu-22.04 from Microsoft Store and set user password in terminal.**
+
+Make a backup of the distribution, clone the project and run this command
+in Windows PowerShell (in the project folder):
 
 ```bash
-./installer.sh --gnome-terminal
+powershell -noexit -nologo -noprofile -executionpolicy bypass -File .\scripts\wsl_backup.ps1
 ```
 
-5️⃣ Install Meslo Nerd Fonts
+I recommend performing a restore immediately, in order to properly boot the Ubuntu instance.
 
 ```bash
-./installer.sh --fonts
+powershell -noexit -nologo -noprofile -executionpolicy bypass -File .\scripts\wsl_restore.ps1
+```
+
+2️⃣ **In Ubuntu-22.04, log in with your username, and clone the project and install all features:**
+
+```bash
+sudo su <username>
+git clone https://github.com/christopherlouet/pimpmyterm
+./pimpmyterm/installer.sh --all --auto
+```
+
+3️⃣ **To install the font and theme, run this command in Windows PowerShell (in the project folder):**
+
+```bash
+powershell -noexit -nologo -noprofile -executionpolicy bypass -File .\scripts\wsl_install_font.ps1
+powershell -noexit -nologo -noprofile -executionpolicy bypass -File .\scripts\wsl_install_theme.ps1
+```
+
+4️⃣ **If you later want to restore the backup, run this command:**
+
+```bash
+powershell -noexit -nologo -noprofile -executionpolicy bypass -File .\scripts\wsl_restore.ps1
 ```
 
 ## 🚀 Features
