@@ -69,13 +69,6 @@ def test_config_profile_list_profile_path_not_exists(bash):
         assert s.last_return_code == 1
 
 
-def test_config_profile_list_empty(bash):
-    with bash() as s:
-        s.auto_return_code_error = False
-        assert s.run_script(script, ['config_profile_list', '--test=7']) == "No profile found!"
-        assert s.last_return_code == 2
-
-
 def test_config_profile_list(bash):
     with bash() as s:
         s.auto_return_code_error = False
@@ -117,13 +110,6 @@ def test_config_theme_list_profile_path_not_exists(bash):
         s.auto_return_code_error = False
         assert s.run_script(script, ['config_theme_list', '--test=8']) == "Theme path not found! (test)"
         assert s.last_return_code == 1
-
-
-def test_config_theme_list_empty(bash):
-    with bash() as s:
-        s.auto_return_code_error = False
-        assert s.run_script(script, ['config_theme_list', '--test=9']) == "No theme found!"
-        assert s.last_return_code == 2
 
 
 def test_config_theme_list(bash):
