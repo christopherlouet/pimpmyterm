@@ -1,0 +1,10 @@
+.idea
+*.iml
+.vscode
+*.retry
+**/__pycache__
+.venv
+.cache
+profiles/*
+!profiles/example.ini
+!profiles/pimpmyterm.ini

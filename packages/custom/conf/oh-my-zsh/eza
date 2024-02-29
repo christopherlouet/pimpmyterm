@@ -1,0 +1,5 @@
+alias l='eza -la --icons'
+alias ll='eza -l --icons'
+alias ls='eza'
+alias ld='eza -lD --icons'
+alias lt='eza -al --sort=modified --icons'

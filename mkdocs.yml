@@ -1,0 +1,33 @@
+site_name: PimpMyTerm
+repo_url: https://github.com/christopherlouet
+site_description: A utility to help you customize your terminal and manage the installation of your favorite packages.
+site_author: Christopher LOUËT
+extra_css:
+  - css/extra.css
+nav:
+  - Home:
+      - pimpmyterm.md
+      - utils.md
+  - Libraries:
+      - libs
+  - Packages:
+      - packages
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: purple
+    accent: cyan
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+plugins:
+  - search
+  - include_dir_to_nav:
+      sort_file: true
+      sort_directory: true
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/christopherlouet

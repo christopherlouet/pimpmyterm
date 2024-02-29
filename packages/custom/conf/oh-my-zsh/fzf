@@ -1,0 +1,9 @@
+FZF_TMUX=0
+FZF_TMUX_OPTS='-p80%,60%'
+FZF_CTRL_T_PREVIEW="bat --style=numbers,changes --wrap never --color always --line-range=:500 {} || cat {} || eza -l --classify --color=always --icons -L=2 -T {}"
+FZF_ALT_C_PREVIEW="eza -l --classify --color=always --icons -L=2 -T {} | grep -E \\\"\\\$([ {q} ] && echo {q} | xargs | sed s/\\\ /\\\|/g | sed s/$/\\\|$/g)\\\" --color=always"
+FZF_COMMAND_OPTS="--info=inline --pointer='→' --marker='♡'"
+FZF_COMPLETION_OPTS="$FZF_COMMAND_OPTS --layout=reverse-list"
+FZF_CTRL_T_OPTS="$FZF_COMMAND_OPTS --preview '($FZF_CTRL_T_PREVIEW) 2> /dev/null'"
+FZF_CTRL_R_OPTS="$FZF_COMMAND_OPTS --preview 'echo {}' --preview-window down:3:hidden:wrap"
+FZF_ALT_C_OPTS="$FZF_COMMAND_OPTS --no-multi --select-1 --preview '($FZF_ALT_C_PREVIEW) 2> /dev/null'"
