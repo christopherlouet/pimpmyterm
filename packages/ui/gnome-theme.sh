@@ -136,7 +136,7 @@ function check_install() {
     debug "${FUNCNAME[0]}"
 
     local gnome_theme=$1
-    local profile_name="" profile_font="" gnome_conf_path="" profile_ids=()
+    profile_name="" profile_font="" gnome_conf_path="" profile_ids=()
 
     # Get the default theme if no theme passed as parameter
     [[ -z $gnome_theme ]] && gnome_theme="$GNOME_DEFAULT_THEME"
@@ -205,8 +205,8 @@ function check_install() {
 # @exitcode 3 If theme installation failed.
 function install() {
     debug "${FUNCNAME[0]}"
-    local gnome_theme=$1
-    # Check if the theme can be installed
+    local gnome_theme=$1 profile_name=""
+    # Check if the theme can be installed and get profile name
     ! check_install "$gnome_theme" && return 1
     # Installing prerequisites
     ! install_prerequisites && return 2

@@ -63,9 +63,11 @@ function check_install() {
 # @exitcode 0 If oh-my-zsh is successfully installed or already installed.
 # @exitcode 1 If oh-my-zsh is already installed.
 # @exitcode 2 If oh-my-zsh url was not found.
-# @exitcode 3 If curl was not found.
-# @exitcode 4 If the .zshrc file cannot be saved.
-# @exitcode 5 If an error was encountered during oh-my-zsh installation.
+# @exitcode 3 If default package manager was not found.
+# @exitcode 4 If error updating the apt index.
+# @exitcode 5 If there's a package installation error.
+# @exitcode 6 If the .zshrc file cannot be saved.
+# @exitcode 7 If an error was encountered during oh-my-zsh installation.
 function install() {
     debug "${FUNCNAME[0]}"
 
@@ -78,16 +80,30 @@ function install() {
     fi
     info_success "Check if oh-my-zsh url exists"
 
+    local install_curl=0
     if ! command -v curl &> /dev/null; then
-        warning "Please install curl"
-        return 3
+        install_curl=1
+    fi
+    if [[ $install_curl -gt 0 ]]; then
+        info "Get the default package manager"
+        [[ -z $DEFAULT_PACKAGE_MANAGER ]] && os_package_manager
+        [[ -z $DEFAULT_PACKAGE_MANAGER ]] && die "Unable to determine default package manager!" && return 3
+        if [[ "$DEFAULT_PACKAGE_MANAGER" = "apt" ]]; then
+            if ! package_apt_update; then
+                warning "Error updating the apt index"
+                return 4
+            fi
+            if ! package_apt_install "curl"; then
+                warning "Error installing the curl package" && return 5
+            fi
+        fi
     fi
 
     info_no_newline "Backup the current .zshrc file"
     if [[ -f "$OH_MY_ZSH_CONF_ZSH" ]]; then
         if ! cp "$OH_MY_ZSH_CONF_ZSH" "$OH_MY_ZSH_CONF_ZSH_ORIGIN"; then
             warning_line_break "Error copying $OH_MY_ZSH_CONF_ZSH file"
-            return 4
+            return 6
         fi
     fi
     info_success "Backup the current .zshrc file"
@@ -95,11 +111,11 @@ function install() {
     info "Proceed to oh-my-zsh installation"
     if [[ $SILENT -gt 0 ]]; then
         if ! sh -c "$(curl -fsSL $OH_MY_ZSH_PROJECT_URL)" "" --unattended 1> /dev/null 2>&1; then
-            return 5
+            return 7
         fi
     else
         if ! sh -c "$(curl -fsSL $OH_MY_ZSH_PROJECT_URL)" "" --unattended; then
-            return 5
+            return 7
         fi
     fi
 

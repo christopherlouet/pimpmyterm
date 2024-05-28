@@ -62,7 +62,7 @@ function packages_read_search() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}")
 # @exitcode 5 Unable to display packages to be deleted.
 # @exitcode 6 Unable to display column headers for packages to be displayed.
 # @exitcode 7 Unable to display packages.
-function packages_print() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]}" ; }
+function packages_display() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]}" ; }
 
 # @description Display the list of packages to be installed.
 # @noargs
@@ -70,7 +70,7 @@ function packages_print() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${F
 # @exitcode 0 If successful.
 # @exitcode 1 Unable to display column headers for packages to be installed.
 # @exitcode 2 Unable to display packages to be installed.
-function packages_print_install() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]}" ; }
+function packages_display_install() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]}" ; }
 
 # @description Display column headers.
 # @noargs
@@ -78,7 +78,7 @@ function packages_print_install() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}
 # @set SHOW_ALL integer If 1 display all columns.
 # @exitcode 0 If successful.
 # @exitcode 1 Error when calculating column widths.
-function packages_print_header() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]}" ; }
+function packages_display_header() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]}" ; }
 
 # @description Display the list of packages to display, install or remove.
 # @arg $1 string target, P: packages to display, I: packages to install, R: packages to remove.
@@ -90,7 +90,7 @@ function packages_print_header() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}"
 # @exitcode 1 Unable to display packages.
 # @exitcode 2 Unable to display packages to be installed.
 # @exitcode 3 Unable to display packages to be removed.
-function packages_print_packages() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]} $*" ; }
+function packages_display_packages() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]} $*" ; }
 
 # @description Calculate column width.
 # @noargs
@@ -110,7 +110,7 @@ function packages_calculate_width() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0
 # @set PACKAGES_COLUMN array Color settings for the line to be displayed.
 # @set SHOW_ALL integer If 1 display all columns.
 # @exitcode 0 If successful.
-function packages_print_package() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]}" ; }
+function packages_display_package() { eval "$(bash "$LIB_PACKAGES" "${FUNCNAME[0]}") ; ${FUNCNAME[0]}" ; }
 
 # @description Resynchronize package information and update cache.
 # @noargs

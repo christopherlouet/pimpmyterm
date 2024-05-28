@@ -96,14 +96,17 @@ function install() {
         archive="rust-bat_$VERSION.orig.tar.gz"
         archive_url="http://archive.ubuntu.com/ubuntu/pool/universe/r/rust-bat/$archive"
         target="x86_64-unknown-linux-gnu"
-        local install_gcc=0 install_shfmt=0
+        local install_gcc=0 install_shfmt=0 install_curl=0
         if ! command -v gcc &> /dev/null; then
             install_gcc=1
         fi
         if ! command -v shfmt &> /dev/null; then
             install_shfmt=1
         fi
-        if [[ $install_gcc -gt 0 ]] || [[ $install_shfmt -gt 0 ]]; then
+        if ! command -v curl &> /dev/null; then
+            install_curl=1
+        fi
+        if [[ $((install_gcc+install_shfmt+install_curl)) -gt 0 ]]; then
             if ! package_apt_update; then
                 warning "Error updating the apt index"
                 return 4
@@ -117,6 +120,11 @@ function install() {
             if [[ $install_shfmt -gt 0 ]]; then
                 if ! package_apt_install "shfmt"; then
                     warning "Error installing the shfmt package" && return 5
+                fi
+            fi
+            if [[ $install_curl -gt 0 ]]; then
+                if ! package_apt_install "curl"; then
+                    warning "Error installing the curl package" && return 5
                 fi
             fi
         fi
