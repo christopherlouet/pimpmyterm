@@ -245,7 +245,7 @@ function install_zsh() {
     if [[ $SILENT -gt 0 ]]; then
         bash "$PMT_ZSH_SCRIPT" --install --theme="$THEME" --silent
     else
-        bash "$PMT_BATCAT_SCRIPT" --install --theme="$THEME"
+        bash "$PMT_ZSH_SCRIPT" --install --theme="$THEME"
     fi
     [[ $? -gt 1 ]] && return 2
     return 0
@@ -509,6 +509,9 @@ function install_neovim() {
         fi
     else
         if ! bash "$PMT_NEOVIM_SCRIPT" --preinstall --theme="$THEME"; then
+            echo $?
+            echo "test"
+
             return 2
         fi
     fi
@@ -697,7 +700,7 @@ function install() {
     ! install_vscode && return 16
 
     success "PimpMyTerm is installed successfully!"
-    info "Launch a new terminal to apply the update"
+    info "Restart session to apply update"
     return 0
 }
 

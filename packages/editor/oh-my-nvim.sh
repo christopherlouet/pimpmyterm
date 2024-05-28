@@ -91,6 +91,39 @@ function install() {
     info "Clone the project in the  $install_path folder"
     git clone --depth=1 -q "$project_url" "$install_path"
 
+    info "Curl installation if required"
+    local install_curl=0
+    if ! command -v curl &> /dev/null; then
+        install_curl=1
+    fi
+    if [[ $install_curl -gt 0 ]]; then
+        info "Get the default package manager"
+        [[ -z $DEFAULT_PACKAGE_MANAGER ]] && os_package_manager
+        [[ -z $DEFAULT_PACKAGE_MANAGER ]] && die "Unable to determine default package manager!" && return 3
+        if [[ "$DEFAULT_PACKAGE_MANAGER" = "apt" ]]; then
+            if ! package_apt_update; then
+                warning "Error updating the apt index"
+                return 4
+            fi
+            if ! package_apt_install "curl"; then
+                warning "Error installing the curl package" && return 5
+            fi
+        fi
+    fi
+    local install_node=0
+    if ! command -v node &> /dev/null; then
+        install_node=1
+    fi
+    if [[ $install_node -gt 0 ]]; then
+        info "Install nvm to quickly install the latest version of node"
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+        info "Install node"
+        nvm install node
+    fi
+
     success "Installed successfully"
     info "Run nvim once to install plugins"
     return 0

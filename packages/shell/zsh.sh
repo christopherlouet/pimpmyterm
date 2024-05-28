@@ -46,6 +46,7 @@ ${COLORS[YELLOW]}\nOptions:${COLORS[NOCOLOR]}
 # @exitcode 1 If zsh is already installed.
 function check_install() {
     if which zsh 1> /dev/null; then
+        warning "zsh is already installed"
         return 1
     fi
     return 0

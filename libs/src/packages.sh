@@ -83,7 +83,7 @@ function packages_read_search() {
     return 0
 }
 
-function packages_print() {
+function packages_display() {
     [[ -n $PID_PARENT ]] && declare -f "${FUNCNAME[0]}" && return 0
     debug_packages "${FUNCNAME[0]} $(display_opts)"
     local package="" headers=()
@@ -93,31 +93,31 @@ function packages_print() {
     # Determine the default package manager
     [[ -z $DEFAULT_PACKAGE_MANAGER ]] && os_package_manager
     [[ -z $DEFAULT_PACKAGE_MANAGER ]] && die "Unable to determine default package manager!" && return 1
-    # Print packages
+    # Display packages
     if [[ $INSTALL -gt 0 ]]; then
         # Check if the list is empty
         [[ ${#PACKAGES_INSTALL[@]} -eq 0 ]] && warning "No package to install" && return 0
-        # Print header
-        ! packages_print_header && return 2
-        ! packages_print_packages "I" && return 3
+        # Display header
+        ! packages_display_header && return 2
+        ! packages_display_packages "I" && return 3
     elif [[ $REMOVE -gt 0 ]]; then
         # Check if the list is empty
         [[ ${#PACKAGES_REMOVE[@]} -eq 0 ]] && warning "No package to remove" && return 0
-        # Print header
-        ! packages_print_header && return 4
-        ! packages_print_packages "R" && return 5
+        # Display header
+        ! packages_display_header && return 4
+        ! packages_display_packages "R" && return 5
     else
         # Check if the list is empty
         [[ ${#PACKAGES_DISPLAY[@]} -eq 0 ]] && warning "No package to display" && return 0
-        # Print header
-        ! packages_print_header && return 6
-        ! packages_print_packages "P" && return 7
+        # Display header
+        ! packages_display_header && return 6
+        ! packages_display_packages "P" && return 7
     fi
     echo -e "\033[0m"
     return 0
 }
 
-function packages_print_install() {
+function packages_display_install() {
     [[ -n $PID_PARENT ]] && declare -f "${FUNCNAME[0]}" && return 0
     debug_packages "${FUNCNAME[0]}"
     local package="" headers=()
@@ -128,22 +128,22 @@ function packages_print_install() {
     local width_version_installed=0 width_version_candidate=0 width_maintainer=0 width_description=0
     # Check if the list is empty
     [[ ${#PACKAGES_INSTALL[@]} -eq 0 ]] && warning "No package to install" && return 0
-    # Print header
-    ! packages_print_header && return 1
+    # Display header
+    ! packages_display_header && return 1
     # Display packages to install
-    ! packages_print_packages "I" && return 2
+    ! packages_display_packages "I" && return 2
     echo -e "\033[0m"
     return 0
 }
 
-function packages_print_header() {
+function packages_display_header() {
     [[ -n $PID_PARENT ]] && declare -f "${FUNCNAME[0]}" && return 0
     debug_packages "${FUNCNAME[0]}"
     local header=""
     # Calculate width
     headers=("Category" "Name" "Source" "Installed" "Candidate" "Maintainer" "Description")
     ! packages_calculate_width && return 1
-    # Print headers
+    # Display headers
     echo ""
     printf "${PACKAGES_HEADER_LEFT}${PACKAGES_HEADER_RIGHT[0]} %-${width_category}s " "${headers[0]}"
     printf "${PACKAGES_HEADER_RIGHT[1]} %-${width_title}s " "${headers[1]}"
@@ -162,25 +162,25 @@ function packages_print_header() {
     return 0
 }
 
-function packages_print_packages() {
+function packages_display_packages() {
     [[ -n $PID_PARENT ]] && declare -f "${FUNCNAME[0]}" && return 0
     local packages_target=$1
     # Display packages
     if [[ $packages_target = "P" ]]; then
         for package in "${PACKAGES_DISPLAY[@]}"; do
-            ! packages_print_package && return 1
+            ! packages_display_package && return 1
         done
     fi
     # Display packages to install
     if [[ $packages_target = "I" ]]; then
         for package in "${PACKAGES_INSTALL[@]}"; do
-            ! packages_print_package && return 2
+            ! packages_display_package && return 2
         done
     fi
     # Display packages to remove
     if [[ $packages_target = "R" ]]; then
         for package in "${PACKAGES_REMOVE[@]}"; do
-            ! packages_print_package && return 3
+            ! packages_display_package && return 3
         done
     fi
     return 0
@@ -240,7 +240,7 @@ function packages_calculate_width() {
 }
 
 # shellcheck disable=SC2001
-function packages_print_package() {
+function packages_display_package() {
     [[ -n $PID_PARENT ]] && declare -f "${FUNCNAME[0]}" && return 0
     # Columns
     local enabled=1 category="" title="" source="" maintainer="" description=""
@@ -266,7 +266,7 @@ function packages_print_package() {
     else
         echo -ne "$badge_left_header"
     fi
-    # Print the raws
+    # Display the raws
     printf "${PACKAGES_COLUMN[0]} %-${width_category}s " "${category^}"
     printf "${PACKAGES_COLUMN[1]} %-${width_title}s " "${title}"
     printf "${PACKAGES_COLUMN[2]} %-${width_source}s " "${source}"
@@ -488,7 +488,7 @@ function packages_show_progress_bar() {
     [[ $progress -gt 9 && $progress -lt 100 ]] && \
                 display_progress_bar+="$progress_bar ${COLORS[NOCOLOR]}"
     [[ $progress -eq 100 ]] && display_progress_bar+="$progress_bar${COLORS[NOCOLOR]}"
-    # Print the progress bar
+    # Display the progress bar
     echo -ne "${BADGE_SUCCESS} Progress $progress% $display_progress_bar $display_name\r"
     return 0
 }
@@ -610,7 +610,7 @@ function packages_install() {
     [[ ${#PACKAGES_INSTALL[@]} -eq 0 ]] && warning "No packages to install" && return 2
     INSTALL=1
     # Display packages to install
-    ! packages_print_install && return 3
+    ! packages_display_install && return 3
     # Confirm before installation
     if [[ $YES -eq 0 ]]; then
         local confirm_answer && confirm_message "Do you want to install these packages? [Y/n]"

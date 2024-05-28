@@ -55,7 +55,7 @@ function debug_pmt() { debug_script "./pimpmyterm.sh" "$*" ; }
 # @set BANNER_COLUMNS integer Banner width.
 # @set MENU_PROMPT_COLORS array Contains the banner colour settings.
 # @exitcode 0 If successful.
-function menu_print_banner() {
+function menu_display_banner() {
     [[ $DEBUG -gt 0 ]] && return 0
     local banner_line=""
     if [[ ${#BANNER_LINES[*]} -eq 0 ]]; then
@@ -101,7 +101,7 @@ function menu_print_banner() {
 # @set MENU_COLUMN_RIGHT_ENABLED array Contains the colours on the right-hand side of a deactivated column.
 # @exitcode 0 If successful.
 # @exitcode 1 If an error has been encountered when configuring the options.
-function menu_print_options() {
+function menu_display_options() {
     # Menu Options
     local options_line="" options="" option=""
     local badge_left_header="" badge_right_header="" badge="" badge_left="" badge_right="" badge_enabled=0
@@ -235,7 +235,7 @@ function menu_configure_options() {
 # @set MENU_BADGE_SEARCH_LEFT string Color of the left side of the search badge.
 # @set MENU_BADGE_SEARCH_RIGHT string Color of the right side of the search badge.
 # @exitcode 0 If successful.
-function menu_print_infos() {
+function menu_display_infos() {
     local menu_header=""
     # Profile
     menu_header+="$MENU_BADGE_LEFT Profile $MENU_BADGE_RIGHT $PROFILE ${COLORS[NOCOLOR]} "
@@ -488,14 +488,14 @@ function menu_theme_update() {
     # Show theme preview
     source "$THEMES_PATH/$theme.sh"
     DISPLAY_ACTION="PREVIEW"
-    menu_print
+    menu_display
     # Apply the theme
     local confirm_answer && confirm_message "Would you like to use this theme? [Y/n]"
     if ! [[ "$confirm_answer" = "y" ]]; then
         # Restore the current theme
         source "$THEMES_PATH/$THEME.sh"
         DISPLAY_ACTION="PREVIEW"
-        menu_print
+        menu_display
         return 0
     fi
     THEME=$theme
@@ -522,7 +522,7 @@ function menu_theme_update() {
 # @exitcode 9 If an error occurs when change the theme.
 # @exitcode 10 If an error occurs when previewing the theme.
 # @exitcode 11 If an error occurs when display the help.
-function menu_print() {
+function menu_display() {
     # Restore the menu cursor
     ! menu_cursor_top_refresh && return 1
     # Clear to end of screen if resize the screen
@@ -537,7 +537,7 @@ function menu_print() {
     [[ ${CURSOR_PROMPT_BOTTOM[0]} -gt $((LINES-2)) ]] && prompt_bottom=1
     # Display the options
     if [[ $DISPLAY_ACTION = "O" ]] || [[ $DISPLAY_ACTION = "L" ]]; then
-        ! menu_display_options && return 2
+        ! menu_display_menu_options && return 2
     fi
     # Display the packages
     if [[ $DISPLAY_ACTION = "L" ]]; then
@@ -588,17 +588,17 @@ function menu_print() {
 # @exitcode 3 If an error has occurred while displaying menu options.
 # @exitcode 4 If an error has occurred while displaying additional information.
 # @exitcode 5 If error occurred when saving cursor position.
-function menu_display_options() {
+function menu_display_menu_options() {
     # Reset cursor in display mode 2
     if [[ $DISPLAY_MODE -eq 2 ]]; then
         ! menu_prompt_cursor_init && return 1
     fi
     # Print the banner
-    [[ $NO_BANNER -eq 0 ]] && ! menu_print_banner && return 2
+    [[ $NO_BANNER -eq 0 ]] && ! menu_display_banner && return 2
     # Display options
-    ! menu_print_options && return 3
+    ! menu_display_options && return 3
     # Display additional information
-    ! menu_print_infos && return 4
+    ! menu_display_infos && return 4
     # Save the prompt cursor
     ! menu_cursor_prompt_save && return 5
     return 0
@@ -636,7 +636,7 @@ function menu_display_update_packages() {
     confirm_continue "Press a key to continue"
     # Reset menu
     ! menu_prompt_cursor_init && return 2
-    menu_print
+    menu_display
     return 0
 }
 
@@ -656,7 +656,7 @@ function menu_display_install_packages() {
     confirm_continue "Press a key to continue"
     # Reset menu
     ! menu_prompt_cursor_init && return 2
-    menu_print
+    menu_display
     return 0
 }
 
@@ -676,7 +676,7 @@ function menu_display_install_prerequisites() {
     confirm_continue "Press a key to continue"
     # Reset menu
     ! menu_prompt_cursor_init && return 2
-    menu_print
+    menu_display
     return 0
 }
 
@@ -696,7 +696,7 @@ function menu_display_remove_packages() {
     confirm_continue "Press a key to continue"
     # Reset menu
     ! menu_prompt_cursor_init && return 2
-    menu_print
+    menu_display
     return 0
 }
 
@@ -716,7 +716,7 @@ function menu_display_change_profile() {
     done
     # Reset menu
     ! menu_prompt_cursor_init && return 2
-    menu_print
+    menu_display
     return 0
 }
 
@@ -736,7 +736,7 @@ function menu_display_change_theme() {
     done
     # Reset menu
     ! menu_prompt_cursor_init && return 2
-    menu_print
+    menu_display
     return 0
 }
 
@@ -753,14 +753,14 @@ function menu_display_preview_theme() {
     ! menu_prompt_cursor_init && return 1
     BANNER_LINES=()
     # Print the banner
-    [[ $NO_BANNER -eq 0 ]] && ! menu_print_banner && return 2
+    [[ $NO_BANNER -eq 0 ]] && ! menu_display_banner && return 2
     # Display options
-    ! menu_print_options && return 3
+    ! menu_display_options && return 3
     # Display additional information
-    ! menu_print_infos && return 4
+    ! menu_display_infos && return 4
     echo -e "${BADGE_PROMPT} Pick an option ${BADGE_PROMPT_ANSWER} "
     # Display packages
-    ! packages_print && return 5
+    ! packages_display && return 5
     DISPLAY_ACTION="T"
     return 0
 }
@@ -937,7 +937,7 @@ function menu_prompt() {
         *) tput ed ; die "Invalid option" ;;
     esac
     menu_action
-    menu_print
+    menu_display
     menu_prompt
     return 0
 }
@@ -959,11 +959,11 @@ function menu_prompt_init() {
     ! menu_prompt_cursor_init && return 1
     # To trap terminal resizing
     if [[ $DEBUG -eq 0 ]]; then
-        trap 'ACTION="RESIZE_SCREEN" ; menu_print' SIGWINCH
+        trap 'ACTION="RESIZE_SCREEN" ; menu_display' SIGWINCH
     fi
     # Display the packages by default
     DISPLAY_ACTION="L"
-    menu_print
+    menu_display
     menu_prompt
     return 0
 }
@@ -998,7 +998,7 @@ function menu_list_packages() {
             prompt_save=1
         fi
     fi
-    ! packages_print && return 4
+    ! packages_display && return 4
     if [[ $prompt_save -gt 0 ]]; then
         echo ""
         ! menu_cursor_prompt_save && return 5
@@ -1020,7 +1020,7 @@ function menu_update_packages() {
     # Initialize and save the top cursor
     [[ $MENU_PROMPT -eq 0 ]] && ! menu_prompt_cursor_init && return 2
     # Display packages
-    ! packages_print && return 3
+    ! packages_display && return 3
     return 0
 }
 
@@ -1045,7 +1045,7 @@ function menu_preinstall_packages() {
     # Resynchronize packages
     ! packages_update && return 4
     # Display packages
-    ! packages_print && return 5
+    ! packages_display && return 5
     return 0
 }
 
@@ -1066,7 +1066,7 @@ function menu_install_packages() {
     [[ $MENU_PROMPT -eq 0 ]] && ! menu_prompt_cursor_init && return 2
     ! packages_install && return 3
     # Display packages after install
-    ! packages_print && return 4
+    ! packages_display && return 4
     return 0
 }
 
@@ -1097,14 +1097,14 @@ function menu_remove_packages() {
     # Display packages to remove
     REMOVE=1
     # Display the packages to remove
-    ! packages_print && return 4
+    ! packages_display && return 4
     # Removing packages
     ! packages_remove && return 5
     # Resynchronize after remove
     REMOVE=0
     ! packages_read && return 1
     # Display packages
-    ! packages_print && return 4
+    ! packages_display && return 4
     return 0
 }
 

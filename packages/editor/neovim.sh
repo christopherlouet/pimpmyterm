@@ -34,7 +34,7 @@ ${COLORS[YELLOW]}\nOptions:${COLORS[NOCOLOR]}
 # @exitcode 1 The neovim PPA already exists.
 function pre_install_apt() {
     debug "${BASH_SOURCE[0]}" "${FUNCNAME[0]}"
-    local ppa="neovim-ppa/unstable"
+    local ppa="neovim-ppa/stable"
 
     info "Check the Neovim PPA"
     if grep -rhE ^deb /etc/apt/sources.list*|grep "$ppa" &> /dev/null ; then
@@ -42,7 +42,7 @@ function pre_install_apt() {
       return 1
     fi
 
-    info "Added unstable repository to get the latest version of Neovim"
+    info "Added stable repository of Neovim"
     if [[ $SILENT -gt 0 ]]; then
         sudo add-apt-repository ppa:$ppa -y 1>/dev/null
     else
@@ -65,7 +65,7 @@ function pre_install() {
     [[ -z $DEFAULT_PACKAGE_MANAGER ]] && die "Unable to determine default package manager!" && return 1
     # Proceed to preinstall
     if [[ "$DEFAULT_PACKAGE_MANAGER" = "apt" ]]; then
-        pre_install_apt && return 2
+        ! pre_install_apt && return 2
     fi
     return 0
 }
