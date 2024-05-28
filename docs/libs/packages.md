@@ -12,12 +12,12 @@ This library contains a list of functions for managing packages.
 * [packages_read_init](#packagesreadinit)
 * [packages_read](#packagesread)
 * [packages_read_search](#packagesreadsearch)
-* [packages_print](#packagesprint)
-* [packages_print_install](#packagesprintinstall)
-* [packages_print_header](#packagesprintheader)
-* [packages_print_packages](#packagesprintpackages)
+* [packages_display](#packagesdisplay)
+* [packages_display_install](#packagesdisplayinstall)
+* [packages_display_header](#packagesdisplayheader)
+* [packages_display_packages](#packagesdisplaypackages)
 * [packages_calculate_width](#packagescalculatewidth)
-* [packages_print_package](#packagesprintpackage)
+* [packages_display_package](#packagesdisplaypackage)
 * [packages_update](#packagesupdate)
 * [packages_resynchronize](#packagesresynchronize)
 * [packages_reset_list](#packagesresetlist)
@@ -100,7 +100,7 @@ _Function has no arguments._
 * **1**: If the package name does not match the one you are looking for.
 * **2**: If the package category does not match the one you are looking for.
 
-### packages_print
+### packages_display
 
 Display the list of packages, depending on the display settings.
 
@@ -128,7 +128,7 @@ _Function has no arguments._
 
 * Displaying the list of packages.
 
-### packages_print_install
+### packages_display_install
 
 Display the list of packages to be installed.
 
@@ -144,7 +144,7 @@ _Function has no arguments._
 * **1**: Unable to display column headers for packages to be installed.
 * **2**: Unable to display packages to be installed.
 
-### packages_print_header
+### packages_display_header
 
 Display column headers.
 
@@ -163,7 +163,7 @@ _Function has no arguments._
 
 * Column headers to be displayed.
 
-### packages_print_packages
+### packages_display_packages
 
 Display the list of packages to display, install or remove.
 
@@ -207,7 +207,7 @@ _Function has no arguments._
 * **0**: If successful.
 * **1**: Terminal width too small to display packages.
 
-### packages_print_package
+### packages_display_package
 
 Display a package.
 

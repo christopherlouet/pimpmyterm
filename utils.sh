@@ -60,6 +60,8 @@ function docker_run() {
         -v $(pwd)/tests:/app/tests \
         -v $(pwd)/themes:/app/themes \
         -v $(pwd)/profiles:/app/profiles \
+        -v $(pwd)/utils.sh:/app/utils.sh \
+        -v $(pwd)/bin/shdoc:/app/bin/shdoc \
         $DOCKER_IMAGE $cmd_container"
     info "$cmd_docker" && eval "$cmd_docker"
     return 0

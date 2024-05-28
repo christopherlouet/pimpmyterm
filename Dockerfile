@@ -24,7 +24,7 @@ ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"
 
 # Install packages
-RUN apk add --update --no-cache bash curl shellcheck \
+RUN apk add --update --no-cache bash curl shellcheck gawk \
     && rm -rf /var/cache/apk/*
 
 # Create user

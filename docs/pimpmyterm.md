@@ -17,10 +17,10 @@ This utility enables you to perform the following actions:
 ## Index
 
 * [debug_pmt](#debugpmt)
-* [menu_print_banner](#menuprintbanner)
-* [menu_print_options](#menuprintoptions)
+* [menu_display_banner](#menudisplaybanner)
+* [menu_display_options](#menudisplayoptions)
 * [menu_configure_options](#menuconfigureoptions)
-* [menu_print_infos](#menuprintinfos)
+* [menu_display_infos](#menudisplayinfos)
 * [menu_cursor_save](#menucursorsave)
 * [menu_prompt_cursor_init](#menupromptcursorinit)
 * [menu_cursor_top_save](#menucursortopsave)
@@ -31,8 +31,8 @@ This utility enables you to perform the following actions:
 * [menu_cursor_prompt_bottom_refresh](#menucursorpromptbottomrefresh)
 * [menu_profile_update](#menuprofileupdate)
 * [menu_theme_update](#menuthemeupdate)
-* [menu_print](#menuprint)
-* [menu_display_options](#menudisplayoptions)
+* [menu_display](#menudisplay)
+* [menu_display_menu_options](#menudisplaymenuoptions)
 * [menu_display_packages](#menudisplaypackages)
 * [menu_display_update_packages](#menudisplayupdatepackages)
 * [menu_display_install_packages](#menudisplayinstallpackages)
@@ -68,7 +68,7 @@ _Function has no arguments._
 
 * **0**: If successful.
 
-### menu_print_banner
+### menu_display_banner
 
 Display the banner.
 
@@ -85,7 +85,7 @@ _Function has no arguments._
 
 * **0**: If successful.
 
-### menu_print_options
+### menu_display_options
 
 Display menu options.
 
@@ -121,7 +121,7 @@ _Function has no arguments._
 
 * **0**: If successful.
 
-### menu_print_infos
+### menu_display_infos
 
 Display various information in the menu header.
 
@@ -312,7 +312,7 @@ _Function has no arguments._
 * **3**: If an error occurs when reading the list of themes.
 * **4**: If the theme cannot be updated in the profile.
 
-### menu_print
+### menu_display
 
 Perform an action in the menu.
 
@@ -339,7 +339,7 @@ _Function has no arguments._
 * **10**: If an error occurs when previewing the theme.
 * **11**: If an error occurs when display the help.
 
-### menu_display_options
+### menu_display_menu_options
 
 Display the menu options.
 
